@@ -36,9 +36,6 @@ private:
     // calculate price per ad
     void calc_price();
 
-    // write notice data
-    void write_notice();
-
     // pack adlist into json, adlist -> response
     void pack_adlist();
 
@@ -63,7 +60,6 @@ private:
 
     // ad list data
     std::vector<ad_data> adlist;
-    std::shared_ptr<notice_data> noticeData;
     nlohmann::json response;
 };
 

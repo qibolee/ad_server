@@ -41,6 +41,7 @@ void mlog::set_debug_path(const char *path) {
     if (path == NULL) {
         return;
     }
+    std::lock_guard<std::mutex> lk(debug_mtx);
     if (debug_fd >= 0) {
         close(debug_fd);
     }
@@ -51,6 +52,7 @@ void mlog::set_trace_path(const char *path) {
     if (path == NULL) {
         return;
     }
+    std::lock_guard<std::mutex> lk(trace_mtx);
     if (trace_fd >= 0) {
         close(trace_fd);
     }
@@ -61,6 +63,7 @@ void mlog::set_warning_path(const char *path) {
     if (path == NULL) {
         return;
     }
+    std::lock_guard<std::mutex> lk(warning_mtx);
     if (warning_fd >= 0) {
         close(warning_fd);
     }
@@ -71,6 +74,7 @@ void mlog::set_fatal_path(const char *path) {
     if (path == NULL) {
         return;
     }
+    std::lock_guard<std::mutex> lk(fatal_mtx);
     if (fatal_fd >= 0) {
         close(fatal_fd);
     }
@@ -81,6 +85,7 @@ void mlog::set_notice_path(const char *path) {
     if (path == NULL) {
         return;
     }
+    std::lock_guard<std::mutex> lk(notice_mtx);
     if (notice_fd >= 0) {
         close(notice_fd);
     }
@@ -94,8 +99,12 @@ void mlog::get_time(char *buf, size_t len) {
 
 void mlog::notice(const notice_data &data) {
     std::lock_guard<std::mutex> lk(notice_mtx);
-    int len = 0;    
-    write(debug_fd, notice_buf.get(), len);
+    if (notice_fd < 0) {
+        return;
+    }
+    // ip, query, winfoid, show, charge, title, desc1, desc2, showurl, targeturl
+    int len = snprintf(notice_buf.get(), buf_size, "%s\t%s\t%lu\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n", data.ip.c_str(), data.query.c_str(), data.winfoid, data.show, data.charge, data.title.c_str(), data.desc1.c_str(), data.desc2.c_str(), data.showurl.c_str(), data.targeturl.c_str());
+    write(notice_fd, notice_buf.get(), len);
 }
 
 void mlog::log(int level, const char *func, const char *file, int line, const char *fmt, ...) {
@@ -120,6 +129,9 @@ void mlog::log(int level, const char *func, const char *file, int line, const ch
 
 void mlog::debug(const char *func, const char *file, int line, const char *fmt, va_list args) {
     std::lock_guard<std::mutex> lk(debug_mtx);
+    if (debug_fd < 0) {
+        return;
+    }
     get_time(debug_tm.get(), tm_size);
     int len = snprintf(debug_buf.get(), buf_size, "[%s DEBUG %s@%s: %d] ", debug_tm.get(), func, file, line);
     int len2 = vsnprintf(debug_buf.get() + len, buf_size - len, fmt, args);
@@ -129,6 +141,9 @@ void mlog::debug(const char *func, const char *file, int line, const char *fmt, 
 
 void mlog::trace(const char *func, const char *file, int line, const char *fmt, va_list args) {
     std::lock_guard<std::mutex> lk(trace_mtx);
+    if (trace_fd < 0) {
+        return;
+    }
     get_time(trace_tm.get(), tm_size);
     int len = snprintf(trace_buf.get(), buf_size, "[%s TRACE %s@%s: %d] ", trace_tm.get(), func, file, line);
     int len2 = vsnprintf(trace_buf.get() + len, buf_size - len, fmt, args);
@@ -137,6 +152,9 @@ void mlog::trace(const char *func, const char *file, int line, const char *fmt, 
 
 void mlog::warning(const char *func, const char *file, int line, const char *fmt, va_list args) {
     std::lock_guard<std::mutex> lk(warning_mtx);
+    if (warning_fd < 0) {
+        return;
+    }
     get_time(warning_tm.get(), tm_size);
     int len = snprintf(warning_buf.get(), buf_size, "[%s WARNING %s@%s: %d] ", warning_tm.get(), func, file, line);
     int len2 = vsnprintf(warning_buf.get() + len, buf_size - len, fmt, args);
@@ -145,6 +163,9 @@ void mlog::warning(const char *func, const char *file, int line, const char *fmt
 
 void mlog::fatal(const char *func, const char *file, int line, const char *fmt, va_list args) {
     std::lock_guard<std::mutex> lk(fatal_mtx);
+    if (fatal_fd < 0) {
+        return;
+    }
     get_time(fatal_tm.get(), tm_size);
     int len = snprintf(fatal_buf.get(), buf_size, "[%s FATAL %s@%s: %d] ", fatal_tm.get(), func, file, line);
     int len2 = vsnprintf(fatal_buf.get() + len, buf_size - len, fmt, args);

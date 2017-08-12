@@ -66,9 +66,6 @@ void process_thread::operator()() {
         // pack adlist into json
         pack_adlist();
 
-        // write notice data
-        write_notice();
-
         // write response
         size_t bodylen = response.dump().size();
         if (send(cfd, response.dump().c_str(), bodylen, 0) != bodylen) {
