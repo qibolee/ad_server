@@ -1,0 +1,7 @@
+[2017/08/11 205705 DEBUG init_service@src/main.cpp: 57] config: log debug_path: 60103
+[2017/08/11 205705 DEBUG init_service@src/main.cpp: 62] config: reload interval: 60103
+[2017/08/11 205705 DEBUG init_service@src/main.cpp: 67] config: ad max_adnum: 1024
+[2017/08/11 205705 DEBUG init_service@src/main.cpp: 71] config: ad max_bidword_num: 1024
+[2017/08/11 205705 DEBUG init_service@src/main.cpp: 75] config: ad max_bidword_len: 16
+[2017/08/11 205705 DEBUG init_service@src/main.cpp: 79] config: ad ad_file: ./data/ad.info
+[2017/08/11 205705 DEBUG init_service@src/main.cpp: 84] config: thread max_process: 32
