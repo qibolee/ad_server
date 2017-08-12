@@ -13,7 +13,7 @@ CXXFLAGS=-std=c++14 \
 CXXLNKS=-lpthread \
 		-lrt
 
-# head files
+# head files in ./include/
 INCFILES=mlog.h \
 		 blocking_queue.h \
 		 inet_sockets.h \
@@ -25,7 +25,7 @@ INCFILES=mlog.h \
 		 config.h \
 		 json.hpp
 
-# source files
+# source files in ./src/
 SRCFILES=main.cpp \
 		 mlog.cpp \
 		 inet_sockets.cpp \
