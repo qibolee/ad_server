@@ -14,7 +14,7 @@ extern std::shared_ptr<config> cfg;
 size_t process_thread::bufSize = 10240;
 size_t process_thread::addrStrLen = 4096;
 
-process_thread::process_thread(const std::shared_ptr<blocking_queue<int>> &q): queue(q), cfd(-1), buf(new char[bufSize], std::default_delete<char[]>()), bidwords(cfg->get_max_bidword_num()), addrStr(new char[addrStrLen], std::default_delete<char[]>()), noticeData(std::make_shared<notice_data>()) {
+process_thread::process_thread(const std::shared_ptr<blocking_queue<int>> &q): queue(q), cfd(-1), buf(new char[bufSize], std::default_delete<char[]>()), bidwords(cfg->get_max_bidword_num()), addrStr(new char[addrStrLen], std::default_delete<char[]>()) {
     if (q.get() == NULL) {
         MLOG(MFATAL, "blocking queue is null");
     }
@@ -157,16 +157,16 @@ void process_thread::sort_and_cut() {
     }
     std::sort(adlist.begin(), adlist.end(), [](const ad_data &adData1, const ad_data &adData2){ return adData1.get_value() > adData2.get_value(); });
     int adnum = std::min((size_t)request["adum"], cfg->get_max_bidword_num());
-    adlist.erase(std::next(adlist.cbegin(), adnum));
+    adlist.erase(std::next(adlist.cbegin(), adnum), adlist.end());
 }
 
 void process_thread::calc_price() {
-    for (auto beg = adlist.begin(), next = std::next(beg); next != adlist.end(); ++beg, ++next) {
+    for (auto it = adlist.begin(), next = std::next(it); next != adlist.end(); ++it, ++next) {
         // price1 = q2 * bid2 / q1
-        if (beg->q == 0) {
-            beg->charge = beg->bid;
+        if (it->q == 0) {
+            it->charge = it->bid;
         } else {
-            beg->charge = next->q * next->bid / beg->q;
+            it->charge = next->q * next->bid / it->q;
         }
     }
     adlist.back().charge = adlist.back().bid;
@@ -198,13 +198,6 @@ void process_thread::pack_adlist() {
         if (response.size() > request["adum"]) {
             break;
         }
-    }
-}
-
-void process_thread::write_notice() {
-    for (auto beg = adlist.begin(); beg != adlist.end(); ++beg) {
-//        noticeData->ip;
-        mlog::notice(*noticeData);
     }
 }
 
