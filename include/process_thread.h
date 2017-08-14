@@ -48,7 +48,7 @@ private:
     // recv client data
     int cfd;
     std::shared_ptr<char> buf;
-    static size_t bufSize;
+    static std::size_t bufSize;
     nlohmann::json request;
     std::unordered_set<std::string> bidwords;
 
@@ -56,7 +56,7 @@ private:
     struct sockaddr_storage addr;
     socklen_t addrlen;
     std::shared_ptr<char> addrStr;
-    static size_t addrStrLen;
+    static std::size_t addrStrLen;
 
     // ad list data
     std::vector<ad_data> adlist;

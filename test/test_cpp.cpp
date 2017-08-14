@@ -3,7 +3,7 @@
 
 
 int main(int argc, const char **argv) {
-    size_t x = 23;
+    std::size_t x = 23;
     printf("%lu\n", x);
     return 0;
 }

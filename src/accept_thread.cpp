@@ -11,7 +11,7 @@
 extern std::shared_ptr<config> cfg;
 
 const int accept_thread::backlog = 1024;
-const size_t accept_thread::addrStrLen = 4096;
+const std::size_t accept_thread::addrStrLen = 4096;
 
 accept_thread::accept_thread(const std::shared_ptr<blocking_queue<int>> &q): sfd(-1), queue(q), cfd(-1), addrStr(new char[addrStrLen], std::default_delete<char[]>()) {
     MLOG(MDEBUG, "accept thread init done");

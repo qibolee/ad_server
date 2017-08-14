@@ -5,7 +5,7 @@
 
 
 struct ad_data {
-    size_t winfoid;
+    std::size_t winfoid;
     std::string bidword; // bidword
     int bid;
     int q;

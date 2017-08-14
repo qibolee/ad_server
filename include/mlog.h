@@ -39,7 +39,7 @@ private:
     static void warning(const char *func, const char *file, int line, const char *fmt, va_list args);
     static void fatal(const char *func, const char *file, int line, const char *fmt, va_list args);
 
-    static void get_time(char *buf, size_t len);
+    static std::size_t get_time(char *buf, std::size_t len);
     // fd
     static int debug_fd;
     static int trace_fd;
@@ -47,14 +47,14 @@ private:
     static int fatal_fd;
     static int notice_fd;
     // log info buf
-    static size_t buf_size;
+    static std::size_t buf_size;
     static std::shared_ptr<char> debug_buf;
     static std::shared_ptr<char> trace_buf;
     static std::shared_ptr<char> warning_buf;
     static std::shared_ptr<char> fatal_buf;
     static std::shared_ptr<char> notice_buf;
     // time info buf
-    static size_t tm_size;
+    static std::size_t tm_size;
     static std::shared_ptr<char> debug_tm;
     static std::shared_ptr<char> trace_tm;
     static std::shared_ptr<char> warning_tm;

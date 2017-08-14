@@ -27,7 +27,7 @@ int main(int argc, const char **argv) {
 
     init_service();
 
-    start_service();
+    //start_service();
 
     return 0;
 }
@@ -36,20 +36,28 @@ void init_service() {
     cfg = std::make_shared<config>();
     parser = std::make_shared<config_parser>(main_config_path);
     // log path
-    std::cerr << "#" << parser->get("log", "debug_path") << "#" << std::endl;
     cfg->set_debug_log_path(parser->get("log", "debug_path"));
+    std::cerr << "#" << cfg->get_debug_log_path() << "#" << std::endl;
     mlog::set_debug_path(cfg->get_debug_log_path().c_str());
-    std::cerr << "#" << parser->get("log", "trace_path") << "#" << std::endl;
+    MLOG(MDEBUG, "open debug log");
+
     cfg->set_trace_log_path(parser->get("log", "trace_path"));
+    std::cerr << "#" << cfg->get_trace_log_path() << "#" << std::endl;
     mlog::set_trace_path(cfg->get_trace_log_path().c_str());
-    std::cerr << "#" << parser->get("log", "warning_path") << "#" << std::endl;
+    MLOG(MTRACE, "open trace log");
+
     cfg->set_warning_log_path(parser->get("log", "warning_path"));
+    std::cerr << "#" << cfg->get_warning_log_path() << "#" << std::endl;
     mlog::set_warning_path(cfg->get_warning_log_path().c_str());
-    std::cerr << "#" << parser->get("log", "fatal_path") << "#" << std::endl;
+    MLOG(MWARNING, "open warning log");
+
     cfg->set_fatal_log_path(parser->get("log", "fatal_path"));
-    mlog::set_warning_path(cfg->get_fatal_log_path().c_str());
-    std::cerr << "#" << parser->get("log", "notice_path") << "#" << std::endl;
+    std::cerr << "#" << cfg->get_fatal_log_path() << "#" << std::endl;
+    mlog::set_fatal_path(cfg->get_fatal_log_path().c_str());
+    MLOG(MFATAL, "open fatal log");
+
     cfg->set_notice_log_path(parser->get("log", "notice_path"));
+    std::cerr << "#" << cfg->get_notice_log_path() << "#" << std::endl;
     mlog::set_notice_path(cfg->get_notice_log_path().c_str());
     
     // service
@@ -59,7 +67,7 @@ void init_service() {
     
     // reload
     std::string reload_interval = parser->get("reload", "interval");
-    MLOG(MDEBUG, "config: reload interval: %s", service_port.c_str());
+    MLOG(MDEBUG, "config: reload interval: %s", reload_interval.c_str());
     cfg->set_reload_interval(std::stoi(reload_interval));
     
     // ad

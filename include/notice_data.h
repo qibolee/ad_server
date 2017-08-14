@@ -6,7 +6,7 @@
 struct notice_data {
     std::string ip; // client ip
     std::string query;
-    size_t winfoid;
+    std::size_t winfoid;
     int show; // almost 1
     int charge; // gsp charge, uint: cents
     std::string title;

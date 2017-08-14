@@ -11,8 +11,8 @@
 
 extern std::shared_ptr<config> cfg;
 
-size_t process_thread::bufSize = 10240;
-size_t process_thread::addrStrLen = 4096;
+std::size_t process_thread::bufSize = 10240;
+std::size_t process_thread::addrStrLen = 4096;
 
 process_thread::process_thread(const std::shared_ptr<blocking_queue<int>> &q): queue(q), cfd(-1), buf(new char[bufSize], std::default_delete<char[]>()), bidwords(cfg->get_max_bidword_num()), addrStr(new char[addrStrLen], std::default_delete<char[]>()) {
     if (q.get() == NULL) {
@@ -67,7 +67,7 @@ void process_thread::operator()() {
         pack_adlist();
 
         // write response
-        size_t bodylen = response.dump().size();
+        std::size_t bodylen = response.dump().size();
         if (send(cfd, response.dump().c_str(), bodylen, 0) != bodylen) {
             MLOG(MWARNING, "send adlist data to client %s failed", addrStr.get());
         } else {
@@ -117,7 +117,7 @@ void process_thread::do_search() {
         }
     }
 
-    size_t winfoid;
+    std::size_t winfoid;
     std::string bidword;
     int bid;
     int q;
@@ -153,7 +153,7 @@ void process_thread::sort_and_cut() {
         return;
     }
     std::sort(adlist.begin(), adlist.end(), [](const ad_data &adData1, const ad_data &adData2){ return adData1.get_value() > adData2.get_value(); });
-    int adnum = std::min((size_t)request["adum"], cfg->get_max_bidword_num());
+    int adnum = std::min((std::size_t)request["adum"], cfg->get_max_bidword_num());
     adlist.erase(std::next(adlist.cbegin(), adnum), adlist.end());
 }
 

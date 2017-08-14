@@ -27,14 +27,14 @@ public:
     std::string get_service_port();
     bool set_service_port(const std::string &port);
 
-    size_t get_max_adnum();
-    bool set_max_adnum(size_t num);
+    std::size_t get_max_adnum();
+    bool set_max_adnum(std::size_t num);
 
-    size_t get_max_bidword_num();
-    bool set_max_bidword_num(size_t num);
+    std::size_t get_max_bidword_num();
+    bool set_max_bidword_num(std::size_t num);
 
-    size_t get_max_bidword_len();
-    bool set_max_bidword_len(size_t len);
+    std::size_t get_max_bidword_len();
+    bool set_max_bidword_len(std::size_t len);
 
     std::string get_ad_file();
     bool set_ad_file(const std::string &path);
@@ -68,15 +68,15 @@ private:
     mutable std::shared_timed_mutex servicePortMtx;
 
     // max ad num info
-    size_t maxAdNum;
+    std::size_t maxAdNum;
     mutable std::shared_timed_mutex maxAdNumMtx;
 
     // max bidword num info
-    size_t maxBidwordNum;
+    std::size_t maxBidwordNum;
     mutable std::shared_timed_mutex maxBidwordNumMtx;
 
     // max bidword len info
-    size_t maxBidwordLen;
+    std::size_t maxBidwordLen;
     mutable std::shared_timed_mutex maxBidwordLenMtx;
 
     // ad file info

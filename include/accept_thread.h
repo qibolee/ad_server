@@ -38,7 +38,7 @@ private:
     sockaddr_storage addr;
     socklen_t addrlen;
     std::shared_ptr<char> addrStr;
-    static const size_t addrStrLen;
+    static const std::size_t addrStrLen;
 };
 
 

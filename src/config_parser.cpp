@@ -36,8 +36,8 @@ std::string config_parser::trim(const std::string &str) {
 
 std::vector<std::string> config_parser::split(const std::string line, const std::string delim) {
     std::vector<std::string> ret;
-    size_t last = 0;
-    size_t idx = line.find_first_of(delim, last);
+    std::size_t last = 0;
+    std::size_t idx = line.find_first_of(delim, last);
     while (idx != std::string::npos) {
         ret.push_back(line.substr(last, idx - last));
         last = idx + 1;
