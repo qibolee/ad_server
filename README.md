@@ -39,4 +39,11 @@ targeturl: str
 showurl: str
 
 
+gsp: 广义二价计费
+排序: q * bid
+计价: price1 = q2 * bid2 / q1 (q1 != 0) or bid1 (q1 == 0)
+推论: q2 * bid2 <= q1 * bid1 =>
+q2 * bid2 / q1 <= bid1 =>
+price1 <= bid1
+
 
