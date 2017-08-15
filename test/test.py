@@ -22,15 +22,11 @@ port = 60103
 
 def run():
 
-    request_data = {
-        "adnum": 2,
-        "bidwords": ["flower"]
-    }
-    data = json.dumps(request_data)
-    print str(data)
+    data = "2\tflower"
+    print data
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
-    s.send(bytes(request_data))
+    s.send(bytes(data))
     data = s.recv(1024)
     print data
 
