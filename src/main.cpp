@@ -97,20 +97,20 @@ void init_service() {
 void start_service() {
     std::shared_ptr<blocking_queue<int>> queue(new blocking_queue<int>(1024));
 
-    accept_thread aThreadObj(queue);
-    process_thread pThreadObj(queue);
-    reload_thread rThreadObj;
+//    accept_thread aThreadObj(queue);
+//    process_thread pThreadObj(queue);
+//    reload_thread rThreadObj;
 
-    std::thread accept_thread(aThreadObj);
-    std::thread reload_thread(rThreadObj);
-    std::vector<std::thread> process_threads;
+    std::thread acceptThread{accept_thread(queue)};
+    std::thread reloadThread{reload_thread()};
+    std::vector<std::thread> processThreads;
     for (auto i = 0; i < cfg->get_max_process_num(); ++i) {
-        process_threads.push_back(std::thread(pThreadObj));
+        processThreads.emplace(processThreads.end(), process_thread(queue));
     }
 
-    accept_thread.join();
-    reload_thread.join();
-    std::for_each(process_threads.begin(), process_threads.end(), std::mem_fn(&std::thread::join));
+    acceptThread.join();
+    reloadThread.join();
+    std::for_each(processThreads.begin(), processThreads.end(), std::mem_fn(&std::thread::join));
 
 }
 
