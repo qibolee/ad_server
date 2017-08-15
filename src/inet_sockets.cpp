@@ -9,6 +9,10 @@ int inet_sockets::inet_connect(const char *host, const char *service, int type) 
     struct addrinfo *result, *rp;
     int sfd = 0;
 
+    if (host == NULL || service == NULL) {
+        return -1;
+    }
+
     std::memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = type;
@@ -35,18 +39,22 @@ int inet_sockets::inet_connect(const char *host, const char *service, int type) 
     return rp == NULL ? -1 : sfd;
 }
 
-int inet_sockets::inet_listen(const char *service, int backlog) {
-
-    return inet_passive_socket(service, SOCK_STREAM, true, backlog);
+int inet_sockets::inet_listen(const char *service, int backlog, struct sockaddr *addr, socklen_t *addrlen) {
+    if (service == NULL) {
+        return -1;
+    }
+    return inet_passive_socket(service, SOCK_STREAM, true, backlog, addr, addrlen);
 }
 
-int inet_sockets::inet_bind(const char *service, int type) {
-
-    return inet_passive_socket(service, type, false, 0);
+int inet_sockets::inet_bind(const char *service, int type, struct sockaddr *addr, socklen_t *addrlen) {
+    if (service == NULL) {
+        return -1;
+    }
+    return inet_passive_socket(service, type, false, 0, addr, addrlen);
 }
 
 int inet_sockets::get_sock_addr(int fd, char *addrStr, int addrStrLen) {
-    if (fd < 0 || addrStr == NULL || addrStrLen <= 0) {
+    if (fd < 0 || addrStr == NULL) {
         return -1;
     }
     struct sockaddr_storage addr;
@@ -61,7 +69,7 @@ int inet_sockets::get_sock_addr(int fd, char *addrStr, int addrStrLen) {
 }
 
 int inet_sockets::get_sock_addr(int fd, struct sockaddr *addr, socklen_t *addrlen, char *addrStr, int addrStrLen) {
-    if (fd < 0 || addr == NULL || addrlen == NULL || addrStr == NULL || addrStrLen <= 0) {
+    if (fd < 0 || addr == NULL || addrlen == NULL || addrStr == NULL) {
         return -1;
     }
     if (getsockname(fd, addr, addrlen) != 0) {
@@ -74,7 +82,7 @@ int inet_sockets::get_sock_addr(int fd, struct sockaddr *addr, socklen_t *addrle
 }
 
 int inet_sockets::get_peer_addr(int fd, char *addrStr, int addrStrLen) {
-    if (fd < 0 || addrStr == NULL || addrStrLen <= 0) {
+    if (fd < 0 || addrStr == NULL) {
         return -1;
     }
     struct sockaddr_storage addr;
@@ -89,7 +97,7 @@ int inet_sockets::get_peer_addr(int fd, char *addrStr, int addrStrLen) {
 }
 
 int inet_sockets::get_peer_addr(int fd, struct sockaddr *addr, socklen_t *addrlen, char *addrStr, int addrStrLen) {
-    if (fd < 0 || addr == NULL || addrlen == NULL || addrStr == NULL || addrStrLen <= 0) {
+    if (fd < 0 || addr == NULL || addrlen == NULL || addrStr == NULL) {
         return -1;
     }
     if (getpeername(fd, addr, addrlen) != 0) {
@@ -115,10 +123,14 @@ int inet_sockets::inet_addr_str(const struct sockaddr *addr, socklen_t addrlen, 
     return 0;
 }
 
-int inet_sockets::inet_passive_socket(const char *service, int type, bool doListen, int backlog) {
+int inet_sockets::inet_passive_socket(const char *service, int type, bool doListen, int backlog, struct sockaddr *addr, socklen_t *addrlen) {
     struct addrinfo hints;
     struct addrinfo *result, *rp;
     int sfd, optval;
+
+    if (service == NULL) {
+        return -1;
+    }
 
     std::memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = AF_UNSPEC;
@@ -147,6 +159,12 @@ int inet_sockets::inet_passive_socket(const char *service, int type, bool doList
             }
         }
         if (bind(sfd, rp->ai_addr, rp->ai_addrlen) == 0) {
+            if (addr != NULL) {
+                *addr = *rp->ai_addr;
+            }
+            if (addrlen != NULL) {
+                *addrlen = rp->ai_addrlen;
+            }
             break;
         }
         close(sfd);
