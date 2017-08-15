@@ -50,7 +50,7 @@ void accept_thread::operator()() {
         MLOG(MDEBUG, "accept client socket fd: %d", cfd);
 
         inet_sockets::inet_addr_str((struct sockaddr *)&addr, addrlen, addrStr.get(), addrStrLen);
-        MLOG(MWARNING, "accept socket %d from client %s", cfd, addrStr.get());
+        MLOG(MDEBUG, "accept socket %d from client %s", cfd, addrStr.get());
 
         queue->put(cfd);
         MLOG(MDEBUG, "put fd[%d] to blocking queue", cfd);
@@ -58,12 +58,12 @@ void accept_thread::operator()() {
 }
 
 bool accept_thread::init() {
-    sfd = inet_sockets::inet_listen(cfg->get_service_port().c_str(), backlog);
+    sfd = inet_sockets::inet_listen(cfg->get_service_port().c_str(), backlog, (struct sockaddr *)&addr, &addrlen);
     if (sfd == -1) {
         MLOG(MFATAL, "listen socket create error");
         return false;
     }
-    inet_sockets::get_sock_addr(sfd, (struct sockaddr *)&addr, &addrlen, addrStr.get(), addrStrLen);
+    inet_sockets::inet_addr_str((struct sockaddr *)&addr, addrlen, addrStr.get(), addrStrLen);
     MLOG(MDEBUG, "create listening socket fd: %d, address: %s", sfd, addrStr.get());
     return true;
 }
@@ -71,7 +71,7 @@ bool accept_thread::init() {
 void accept_thread::clear() {
     cfd = -1;
     std::fill_n(addrStr.get(), addrStrLen, '\0');
-    snprintf(addrStr.get(), addrStrLen, "[UNKNOW]");
+    std::snprintf(addrStr.get(), addrStrLen, "[UNKNOW]");
 }
 
 
