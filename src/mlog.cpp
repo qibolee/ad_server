@@ -1,4 +1,3 @@
-#include <algorithm>
 #include <thread>
 #include <cstring>
 #include <cstdarg>
@@ -47,7 +46,7 @@ void mlog::set_debug_path(const char *path) {
     if (debug_fd >= 0) {
         close(debug_fd);
     }
-    debug_fd = open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    debug_fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
 }
 
 void mlog::set_trace_path(const char *path) {
@@ -58,7 +57,7 @@ void mlog::set_trace_path(const char *path) {
     if (trace_fd >= 0) {
         close(trace_fd);
     }
-    trace_fd = open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    trace_fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
 }
 
 void mlog::set_warning_path(const char *path) {
@@ -69,7 +68,7 @@ void mlog::set_warning_path(const char *path) {
     if (warning_fd >= 0) {
         close(warning_fd);
     }
-    warning_fd = open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    warning_fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
 }
 
 void mlog::set_fatal_path(const char *path) {
@@ -80,7 +79,7 @@ void mlog::set_fatal_path(const char *path) {
     if (fatal_fd >= 0) {
         close(fatal_fd);
     }
-    fatal_fd = open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    fatal_fd = open(path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
 }
 
 void mlog::set_notice_path(const char *path) {
@@ -91,7 +90,7 @@ void mlog::set_notice_path(const char *path) {
     if (notice_fd >= 0) {
         close(notice_fd);
     }
-    notice_fd = open(path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+    notice_fd = open(path, O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR);
 }
 
 std::size_t mlog::get_time(char *buf, std::size_t len) {
