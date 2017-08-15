@@ -7,6 +7,7 @@
 #include "mlog.h"
 #include "inet_sockets.h"
 #include "config.h"
+#include "string_util.h"
 
 
 extern std::shared_ptr<config> cfg;
@@ -14,7 +15,8 @@ extern std::shared_ptr<config> cfg;
 std::size_t process_thread::bufSize = 10240;
 std::size_t process_thread::addrStrLen = 4096;
 
-process_thread::process_thread(const std::shared_ptr<blocking_queue<int>> &q): queue(q), cfd(-1), buf(new char[bufSize], std::default_delete<char[]>()), bidwords(cfg->get_max_bidword_num()), addrStr(new char[addrStrLen], std::default_delete<char[]>()) {
+process_thread::process_thread(const std::shared_ptr<blocking_queue<int>> &q): queue(q), cfd(-1), 
+    buf(new char[bufSize], std::default_delete<char[]>()), bidwords(cfg->get_max_bidword_num()), addrStr(new char[addrStrLen], std::default_delete<char[]>()) {
     if (q.get() == NULL) {
         MLOG(MFATAL, "blocking queue is null");
     }
@@ -51,27 +53,31 @@ void process_thread::operator()() {
             continue;
         }
         
-        MLOG(MDEBUG, "recv buf from client %s : %s", addrStr.get(), buf.get());
-        request = nlohmann::json::parse(buf.get());
+        MLOG(MDEBUG, "recv buf from client %s: %s", addrStr.get(), buf.get());
+        parse_request();
+        //request = nlohmann::json::parse(buf.get());
     
         // search ad from ad file
         search_ad();
-        MLOG(MDEBUG, "search ad size according to request: %d", adlist.size());
+        MLOG(MDEBUG, "search ad, get ad size: %lu", adlist.size());
+
         // sort & cut
         sort_and_cut();
+        MLOG(MDEBUG, "sort and cut, adlist size: %lu", adlist.size());
 
         // calc price
         calc_price();
+        MLOG(MDEBUG, "calc price, adlist size: %lu", adlist.size());
 
         // pack adlist into json
-        pack_adlist();
+        std::size_t bodylen = pack_adlist();
+        MLOG(MDEBUG, "pack response ad data: %s", buf.get());
 
         // write response
-        std::size_t bodylen = response.dump().size();
-        if (send(cfd, response.dump().c_str(), bodylen, 0) != bodylen) {
+        if (send(cfd, buf.get(), bodylen, 0) != bodylen) {
             MLOG(MWARNING, "send adlist data to client %s failed", addrStr.get());
         } else {
-            MLOG(MWARNING, "send adlist data to client %s successful", addrStr.get());
+            MLOG(MDEBUG, "send adlist data to client %s successful", addrStr.get());
         }
 
         close(cfd);
@@ -79,17 +85,27 @@ void process_thread::operator()() {
 
 }
 
+void process_thread::parse_request() {
+    std::vector<std::string> ret = string_util::split(buf.get(), "\t");
+    if (ret.empty()) {
+        MLOG(MWARNING, "parse request failed, split zero");
+        return;
+    }
+    requestNum = std::stoul(ret[0]);
+    for (int i = 1; i < ret.size(); ++i) {
+        if (ret[i].size() > cfg->get_max_bidword_len()) {
+            continue;
+        }
+        bidwords.insert(ret[i]);
+        if (bidwords.size() > cfg->get_max_bidword_num()) {
+            break;
+        }
+    }
+}
+
 void process_thread::search_ad() {
-    if (request.empty()) {
-        MLOG(MWARNING, "no request data");
-        return;
-    }
-    if (request["adum"] == 0) {
-        MLOG(MWARNING, "adnum is 0 in request");
-        return;
-    }
-    if (request["bidwords"].empty()) {
-        MLOG(MWARNING, "bidwords is empty in request");
+    if (requestNum == 0 || bidwords.empty()) {
+        MLOG(MWARNING, "requestNum is 0 or bidwords is empty");
         return;
     }
     do_search(); 
@@ -102,49 +118,30 @@ void process_thread::do_search() {
         MLOG(MWARNING, "ad file open error");
         return;
     }
-    bidwords.clear();
-    for (auto it = request["bidwords"].begin(); it != request["bidwords"].end(); ++it) {
-        if (!it->is_string()) {
-            continue;
-        }
-        std::string w = *it;
-        if (w.size() > cfg->get_max_bidword_len()) {
-            continue;
-        }
-        bidwords.insert(w);
-        if (bidwords.size() > cfg->get_max_bidword_num()) {
-            break;
-        }
-    }
 
-    std::size_t winfoid;
-    std::string bidword;
-    int bid;
-    int q;
-    std::string title;
-    std::string desc1;
-    std::string desc2;
-    std::string targeturl;
-    std::string showurl;
-    while (reader >> winfoid >> bidword >> bid >> q >> title >> desc1 >> desc2 >> targeturl >> showurl) {
-        if (bidwords.find(bidword) == bidwords.end()) {
+    while (reader.getline(buf.get(), bufSize)) {
+        std::vector<std::string> ret = string_util::split(buf.get(), "\t");
+        if (ret.size() != 9 || bidwords.find(ret[1]) == bidwords.end()) {
+            MLOG(MWARNING, "read from ad file data error, line: %s", buf.get());
             continue;
         }
         ad_data adData;
-        adData.winfoid = winfoid;
-        adData.bidword = bidword;
-        adData.bid = bid;
-        adData.q = q;
-        adData.title = title;
-        adData.desc1 = desc1;
-        adData.desc2 = desc2;
-        adData.targeturl = targeturl;
-        adData.showurl = showurl;
+        adData.winfoid = std::stoull(ret[0]);
+        adData.bidword = ret[1];
+        adData.bid = std::stoi(ret[2]);
+        adData.q = std::stoi(ret[3]);
+        adData.title = ret[4];
+        adData.desc1 = ret[5];
+        adData.desc2 = ret[6];
+        adData.targeturl = ret[7];
+        adData.showurl = ret[8];
         adlist.push_back(adData);
         if (adlist.size() > cfg->get_max_adnum()) {
             break;
         }
     }
+
+    reader.close();
 }
 
 void process_thread::sort_and_cut() {
@@ -153,8 +150,10 @@ void process_thread::sort_and_cut() {
         return;
     }
     std::sort(adlist.begin(), adlist.end(), [](const ad_data &adData1, const ad_data &adData2){ return adData1.get_value() > adData2.get_value(); });
-    int adnum = std::min((std::size_t)request["adum"], cfg->get_max_bidword_num());
-    adlist.erase(std::next(adlist.cbegin(), adnum), adlist.end());
+    int adnum = std::min(requestNum, cfg->get_max_bidword_num());
+    if (adlist.size() > adnum) {
+        adlist.erase(std::next(adlist.cbegin(), adnum), adlist.end());
+    }
 }
 
 void process_thread::calc_price() {
@@ -167,45 +166,29 @@ void process_thread::calc_price() {
         }
     }
     adlist.back().charge = adlist.back().bid;
-    MLOG(MDEBUG, "adlist data is sorted and calc price");
 }
 
-void process_thread::pack_adlist() {
-    
-    response.clear();
+std::size_t process_thread::pack_adlist() {
     
     if (adlist.empty()) {
         MLOG(MWARNING, "adlist is empty");
-        return;
+        return 0;
     }
-
+    std::size_t len = 0;
     for (auto &ad : adlist) {
-        nlohmann::json obj = {
-            {"winfoid", ad.winfoid},
-            {"term", ad.bidword},
-            {"bid", ad.bid},
-            {"q", ad.q},
-            {"charge", ad.charge},
-            {"desc1", ad.desc1},
-            {"desc2", ad.desc2},
-            {"showurl", ad.showurl},
-            {"targeturl", ad.targeturl}
-        };
-        response.push_back(obj);
-        if (response.size() > request["adum"]) {
-            break;
-        }
+        int l = std::snprintf(buf.get() + len, bufSize, "%lu\t%s\t%d\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n", ad.winfoid, ad.bidword.c_str(), ad.bid, ad.q, ad.charge, ad.title.c_str(), ad.desc1.c_str(), ad.desc2.c_str(), ad.showurl.c_str(), ad.targeturl.c_str());
+        len += l;
     }
+    return len;
 }
 
 void process_thread::clear() {
     cfd = -1;
     std::fill_n(buf.get(), bufSize, '\0');
-    request.clear();
+    bidwords.clear();
     std::fill_n(addrStr.get(), addrStrLen, '\0');
     snprintf(addrStr.get(), addrStrLen, "[UNKNOW]");
     adlist.clear();
-    response.clear();
 }
 
 

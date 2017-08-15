@@ -26,6 +26,8 @@ public:
     process_thread &operator=(process_thread &&) = delete;
 */
 private:
+    void parse_request();
+
     // search ad according to request, request -> adlist
     void search_ad();
     void do_search();
@@ -37,7 +39,7 @@ private:
     void calc_price();
 
     // pack adlist into json, adlist -> response
-    void pack_adlist();
+    std::size_t pack_adlist();
 
     // clear data, prepare for next process
     void clear();
@@ -49,7 +51,8 @@ private:
     int cfd;
     std::shared_ptr<char> buf;
     static std::size_t bufSize;
-    nlohmann::json request;
+    //nlohmann::json request;
+    std::size_t requestNum;
     std::unordered_set<std::string> bidwords;
 
     // client addr
@@ -60,7 +63,7 @@ private:
 
     // ad list data
     std::vector<ad_data> adlist;
-    nlohmann::json response;
+    //nlohmann::json response;
 };
 
 
