@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cstdarg>
 #include <ctime>
+#include <cstdio>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -104,7 +105,7 @@ void mlog::notice(const notice_data &data) {
         return;
     }
     // ip, query, winfoid, show, charge, title, desc1, desc2, showurl, targeturl
-    int len = snprintf(notice_buf.get(), buf_size, "%s\t%s\t%lu\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n", data.ip.c_str(), data.query.c_str(), data.winfoid, data.show, data.charge, data.title.c_str(), data.desc1.c_str(), data.desc2.c_str(), data.showurl.c_str(), data.targeturl.c_str());
+    int len = std::snprintf(notice_buf.get(), buf_size, "%s\t%s\t%lu\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n", data.ip.c_str(), data.query.c_str(), data.winfoid, data.show, data.charge, data.title.c_str(), data.desc1.c_str(), data.desc2.c_str(), data.showurl.c_str(), data.targeturl.c_str());
     write(notice_fd, notice_buf.get(), len);
 }
 
@@ -134,8 +135,8 @@ void mlog::debug(const char *func, const char *file, int line, const char *fmt, 
         return;
     }
     get_time(debug_tm.get(), tm_size);
-    int len = snprintf(debug_buf.get(), buf_size, "[%s DEBUG %llu %s@%s: %d] ", debug_tm.get(), std::this_thread::get_id(), func, file, line);
-    int len2 = vsnprintf(debug_buf.get() + len, buf_size - len, fmt, args);
+    int len = std::snprintf(debug_buf.get(), buf_size, "[%s DEBUG %llu %s@%s: %d] ", debug_tm.get(), std::this_thread::get_id(), func, file, line);
+    int len2 = std::vsnprintf(debug_buf.get() + len, buf_size - len, fmt, args);
     //snprintf(debug_buf + len + len2, buf_size - len - len2, "\n");
     write(debug_fd, debug_buf.get(), len + len2);
 }
@@ -146,8 +147,8 @@ void mlog::trace(const char *func, const char *file, int line, const char *fmt, 
         return;
     }
     get_time(trace_tm.get(), tm_size);
-    int len = snprintf(trace_buf.get(), buf_size, "[%s TRACE %llu %s@%s: %d] ", trace_tm.get(), std::this_thread::get_id(), func, file, line);
-    int len2 = vsnprintf(trace_buf.get() + len, buf_size - len, fmt, args);
+    int len = std::snprintf(trace_buf.get(), buf_size, "[%s TRACE %llu %s@%s: %d] ", trace_tm.get(), std::this_thread::get_id(), func, file, line);
+    int len2 = std::vsnprintf(trace_buf.get() + len, buf_size - len, fmt, args);
     write(trace_fd, trace_buf.get(), len + len2);
 }
 
@@ -157,8 +158,8 @@ void mlog::warning(const char *func, const char *file, int line, const char *fmt
         return;
     }
     get_time(warning_tm.get(), tm_size);
-    int len = snprintf(warning_buf.get(), buf_size, "[%s WARNING %llu %s@%s: %d] ", warning_tm.get(), std::this_thread::get_id(), func, file, line);
-    int len2 = vsnprintf(warning_buf.get() + len, buf_size - len, fmt, args);
+    int len = std::snprintf(warning_buf.get(), buf_size, "[%s WARNING %llu %s@%s: %d] ", warning_tm.get(), std::this_thread::get_id(), func, file, line);
+    int len2 = std::vsnprintf(warning_buf.get() + len, buf_size - len, fmt, args);
     write(warning_fd, warning_buf.get(), len + len2);
 }
 
@@ -168,8 +169,8 @@ void mlog::fatal(const char *func, const char *file, int line, const char *fmt, 
         return;
     }
     get_time(fatal_tm.get(), tm_size);
-    int len = snprintf(fatal_buf.get(), buf_size, "[%s FATAL %llu %s@%s: %d] ", fatal_tm.get(), std::this_thread::get_id(), func, file, line);
-    int len2 = vsnprintf(fatal_buf.get() + len, buf_size - len, fmt, args);
+    int len = std::snprintf(fatal_buf.get(), buf_size, "[%s FATAL %llu %s@%s: %d] ", fatal_tm.get(), std::this_thread::get_id(), func, file, line);
+    int len2 = std::vsnprintf(fatal_buf.get() + len, buf_size - len, fmt, args);
     write(fatal_fd, fatal_buf.get(), len + len2);
 }
 

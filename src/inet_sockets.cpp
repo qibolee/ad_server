@@ -1,7 +1,7 @@
-#include <string.h>
+#include <cstring>
 #include <errno.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <cstdio>
 #include "inet_sockets.h"
 
 int inet_sockets::inet_connect(const char *host, const char *service, int type) {
@@ -9,7 +9,7 @@ int inet_sockets::inet_connect(const char *host, const char *service, int type) 
     struct addrinfo *result, *rp;
     int sfd = 0;
 
-    memset(&hints, 0, sizeof(struct addrinfo));
+    std::memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = type;
     hints.ai_canonname = NULL;
@@ -107,9 +107,9 @@ int inet_sockets::inet_addr_str(const struct sockaddr *addr, socklen_t addrlen, 
     }
     char host[NI_MAXHOST], service[NI_MAXSERV];
     if (getnameinfo(addr, addrlen, host, NI_MAXHOST, service, NI_MAXSERV, NI_NUMERICHOST | NI_NUMERICSERV) == 0) {
-        snprintf(addrStr, addrStrLen, "[%s, %s]", host, service);
+        std::snprintf(addrStr, addrStrLen, "[%s, %s]", host, service);
     } else {
-        snprintf(addrStr, addrStrLen, "[?UNKNOW?]");
+        std::snprintf(addrStr, addrStrLen, "[?UNKNOW?]");
     }
     addrStr[addrStrLen - 1] = '\0';
     return 0;
@@ -120,7 +120,7 @@ int inet_sockets::inet_passive_socket(const char *service, int type, bool doList
     struct addrinfo *result, *rp;
     int sfd, optval;
 
-    memset(&hints, 0, sizeof(struct addrinfo));
+    std::memset(&hints, 0, sizeof(struct addrinfo));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = type;
     hints.ai_addr = NULL;

@@ -12,15 +12,27 @@
 
 __revision__ = '0.1'
 import sys
+import socket
+import json
+
+
+host = "127.0.0.1"
+port = 60103
 
 
 def run():
 
     request_data = {
         "adnum": 2,
-        "bidwords": ["œ ª®"]
+        "bidwords": ["flower"]
     }
-    print str(request_data)
+    data = json.dumps(request_data)
+    print str(data)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((host, port))
+    s.send(bytes(request_data))
+    data = s.recv(1024)
+    print data
 
     return 0
 

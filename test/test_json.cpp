@@ -1,9 +1,7 @@
 #include <iostream>
+#include <string>
 #include <cstdio>
 #include "json.hpp"
-#include <mutex>  // For std::unique_lock
-#include <shared_mutex>
-#include <thread>
 
 using json = nlohmann::json;
 
@@ -18,7 +16,9 @@ int main() {
     std::cout << j.dump(4) << std::endl;
     printf("%s\n", j.dump().c_str());
 
-    std::shared_mutex mutex_;
+    std::string str = "{\"bidwords\": [\"ÏÊ»¨\"], \"adnum\": 2}";
+    nlohmann::json j2 = nlohmann::json::parse(str);
+
 
 
     return 0;

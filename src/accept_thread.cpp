@@ -22,7 +22,7 @@ accept_thread::accept_thread(const std::shared_ptr<blocking_queue<int>> &q): sfd
 
 accept_thread::~accept_thread() {
     if (sfd >= 0) {
-        ::close(sfd);
+        close(sfd);
     }
 }
 
@@ -47,11 +47,13 @@ void accept_thread::operator()() {
             MLOG(MWARNING, "accept error");
             continue;
         }
+        MLOG(MDEBUG, "accept client socket fd: %d", cfd);
 
         inet_sockets::inet_addr_str((struct sockaddr *)&addr, addrlen, addrStr.get(), addrStrLen);
         MLOG(MWARNING, "accept socket %d from client %s", cfd, addrStr.get());
 
         queue->put(cfd);
+        MLOG(MDEBUG, "put fd[%d] to blocking queue", cfd);
     }
 }
 
@@ -61,6 +63,8 @@ bool accept_thread::init() {
         MLOG(MFATAL, "listen socket create error");
         return false;
     }
+    inet_sockets::get_sock_addr(sfd, (struct sockaddr *)&addr, &addrlen, addrStr.get(), addrStrLen);
+    MLOG(MDEBUG, "create listening socket fd: %d, address: %s", sfd, addrStr.get());
     return true;
 }
 

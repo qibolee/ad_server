@@ -1,6 +1,7 @@
 #ifndef NOTICE_DATA_H
 #define NOTICE_DATA_H
 
+#include <string>
 
 // notice log, per show ad
 struct notice_data {

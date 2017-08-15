@@ -54,12 +54,16 @@ private:
     // log path info
     std::string debugLogPath;
     mutable std::shared_timed_mutex debugLogPathMtx;
+
     std::string traceLogPath;
     mutable std::shared_timed_mutex traceLogPathMtx;
+
     std::string warningLogPath;
     mutable std::shared_timed_mutex warningLogPathMtx;
+
     std::string fatalLogPath;
     mutable std::shared_timed_mutex fatalLogPathMtx;
+
     std::string noticeLogPath;
     mutable std::shared_timed_mutex noticeLogPathMtx;
 

@@ -50,9 +50,9 @@ void process_thread::operator()() {
             close(cfd);
             continue;
         }
-
+        
+        MLOG(MDEBUG, "recv buf from client %s : %s", addrStr.get(), buf.get());
         request = nlohmann::json::parse(buf.get());
-        MLOG(MDEBUG, "recv buf from client %s : %.20s...", addrStr.get(), buf.get());
     
         // search ad from ad file
         search_ad();
@@ -207,7 +207,5 @@ void process_thread::clear() {
     adlist.clear();
     response.clear();
 }
-
-
 
 
