@@ -15,6 +15,7 @@ CXXLNKS=-lpthread \
 
 # head files in ./include/
 INCFILES=mlog.h \
+		 string_util.h \
 		 blocking_queue.h \
 		 inet_sockets.h \
 		 accept_thread.h \
@@ -28,6 +29,7 @@ INCFILES=mlog.h \
 # source files in ./src/
 SRCFILES=main.cpp \
 		 mlog.cpp \
+		 string_util.cpp \
 		 inet_sockets.cpp \
 		 accept_thread.cpp \
 		 process_thread.cpp \

@@ -35,11 +35,6 @@ private:
     // regex to match string
     std::regex secPtn;
     std::regex kvPtn;
-
-    // process string
-    std::string trim(const std::string &str);
-    std::vector<std::string> split(const std::string line, const std::string delim);
-
 };
 
 
