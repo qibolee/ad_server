@@ -22,7 +22,7 @@ port = 60103
 
 def run():
 
-    data = "2\tflower"
+    data = "2\tœ ª®"
     print data
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
