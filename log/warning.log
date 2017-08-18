@@ -1,2 +1,1 @@
-[2017/08/15 11:12:04 WARNING 139773504349952 init_service@src/main.cpp: 52] open warning log
-[2017/08/15 11:12:06 WARNING 1116911968 operator()@src/accept_thread.cpp: 53] accept socket 12 from client [127.0.0.1, 51822]
+[2017/08/18 17:04:43 WARNING 139868761016064 init_service@src/main.cpp: 52] open warning log
