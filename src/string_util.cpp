@@ -23,3 +23,20 @@ std::vector<std::string> string_util::split(const std::string &line, const std::
     return ret;
 }
 
+std::vector<std::string> string_util::split(const std::string &line, char delim) {
+
+    std::vector<std::string> ret;
+    auto last = line.begin();
+    auto iter = std::find(last, line.end(), delim);
+    while (iter != line.end()) {
+        ret.push_back(std::string(last, iter));
+        last = std::next(iter, 1);
+        iter = std::find(last, line.end(), delim);
+    }
+    if (last != line.end()) {
+        ret.push_back(std::string(last, line.end()));
+    }
+    return ret;
+}
+
+
