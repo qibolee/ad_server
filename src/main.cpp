@@ -37,29 +37,13 @@ void init_service() {
     parser = std::make_shared<config_parser>(main_config_path);
     // log path
     cfg->set_debug_log_path(parser->get("log", "debug_path"));
-    //std::cerr << "#" << cfg->get_debug_log_path() << "#" << std::endl;
-    mlog::set_debug_path(cfg->get_debug_log_path().c_str());
-    MLOG(MDEBUG, "open debug log");
-
     cfg->set_trace_log_path(parser->get("log", "trace_path"));
-    //std::cerr << "#" << cfg->get_trace_log_path() << "#" << std::endl;
-    mlog::set_trace_path(cfg->get_trace_log_path().c_str());
-    MLOG(MTRACE, "open trace log");
-
     cfg->set_warning_log_path(parser->get("log", "warning_path"));
-    //std::cerr << "#" << cfg->get_warning_log_path() << "#" << std::endl;
-    mlog::set_warning_path(cfg->get_warning_log_path().c_str());
-    MLOG(MWARNING, "open warning log");
-
     cfg->set_fatal_log_path(parser->get("log", "fatal_path"));
-    //std::cerr << "#" << cfg->get_fatal_log_path() << "#" << std::endl;
-    mlog::set_fatal_path(cfg->get_fatal_log_path().c_str());
-    MLOG(MFATAL, "open fatal log");
-
     cfg->set_notice_log_path(parser->get("log", "notice_path"));
-    //std::cerr << "#" << cfg->get_notice_log_path() << "#" << std::endl;
-    mlog::set_notice_path(cfg->get_notice_log_path().c_str());
-    
+    // init log util    
+    mlog::init(cfg->get_debug_log_path().c_str(), cfg->get_trace_log_path().c_str(), cfg->get_warning_log_path().c_str(), cfg->get_fatal_log_path().c_str(), cfg->get_notice_log_path().c_str());
+
     // service
     std::string service_port = parser->get("service", "port");
     MLOG(MDEBUG, "config: service port: %s", service_port.c_str());

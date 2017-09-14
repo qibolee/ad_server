@@ -24,6 +24,7 @@ enum {
 
 class mlog {
 public:
+    static void init(const char *debug_path, const char *trace_path, const char *warning_path, const char *fatal_path, const char *notice_path);
     static void log(int level, const char *func, const char *file, int line, const char *fmt, ...);
     static void notice(const notice_data &data);
 

@@ -38,6 +38,24 @@ std::mutex mlog::warning_mtx;
 std::mutex mlog::fatal_mtx;
 std::mutex mlog::notice_mtx;
 
+
+void mlog::init(const char *debug_path, const char *trace_path, const char *warning_path, const char *fatal_path, const char *notice_path) {
+    mlog::set_debug_path(debug_path);
+    MLOG(MDEBUG, "open debug log");
+
+    mlog::set_trace_path(trace_path);
+    MLOG(MTRACE, "open trace log");
+
+    mlog::set_warning_path(warning_path);
+    MLOG(MWARNING, "open warning log");
+
+    mlog::set_fatal_path(fatal_path);
+    MLOG(MFATAL, "open fatal log");
+
+    mlog::set_notice_path(notice_path);
+}
+
+
 void mlog::set_debug_path(const char *path) {
     if (path == NULL) {
         return;
