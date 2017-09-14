@@ -1,55 +1,55 @@
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 42] open debug log
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 65] config: service port: 60103
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 70] config: reload interval: 100
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 75] config: ad max_adnum: 1024
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 79] config: ad max_bidword_num: 1024
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 83] config: ad max_bidword_len: 16
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 87] config: ad ad_file: ./data/ad.info
-[2017/08/18 17:04:43 DEBUG 139868761016064 init_service@src/main.cpp: 92] config: thread max_process: 32
-[2017/08/18 17:04:43 DEBUG 139868761016064 accept_thread@src/accept_thread.cpp: 17] accept thread init done
-[2017/08/18 17:04:43 DEBUG 1113545056 operator()@src/accept_thread.cpp: 30] accept thread started
-[2017/08/18 17:04:43 DEBUG 1124034912 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1134524768 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1145014624 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1155504480 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1165994336 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1176484192 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1186974048 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1197463904 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1207953760 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1218443616 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1228933472 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1239423328 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1249913184 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1260403040 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1270892896 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1281382752 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1291872608 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1302362464 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1312852320 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1323342176 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1333832032 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1344321888 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1354811744 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1365301600 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1375791456 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1386281312 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1396771168 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1407261024 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1417750880 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1428240736 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1438730592 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1449220448 operator()@src/process_thread.cpp: 30] process thread started
-[2017/08/18 17:04:43 DEBUG 1113545056 init@src/accept_thread.cpp: 67] create listening socket fd: 11, address: [0.0.0.0, 60103]
-[2017/08/18 17:04:43 DEBUG 1113545056 operator()@src/accept_thread.cpp: 41] socket listening
-[2017/08/18 17:04:53 DEBUG 1113545056 operator()@src/accept_thread.cpp: 50] accept client socket fd: 12
-[2017/08/18 17:04:53 DEBUG 1113545056 operator()@src/accept_thread.cpp: 53] accept socket 12 from client [127.0.0.1, 33659]
-[2017/08/18 17:04:53 DEBUG 1113545056 operator()@src/accept_thread.cpp: 56] put fd[12] to blocking queue
-[2017/08/18 17:04:53 DEBUG 1124034912 operator()@src/process_thread.cpp: 41] get socket fd from blocking queue: 12
-[2017/08/18 17:04:53 DEBUG 1124034912 operator()@src/process_thread.cpp: 56] recv buf from client [127.0.0.1, 33659]: 2	鲜花
-[2017/08/18 17:04:53 DEBUG 1124034912 operator()@src/process_thread.cpp: 62] search ad, get ad size: 1
-[2017/08/18 17:04:53 DEBUG 1124034912 operator()@src/process_thread.cpp: 66] sort and cut, adlist size: 1
-[2017/08/18 17:04:53 DEBUG 1124034912 operator()@src/process_thread.cpp: 70] calc price, adlist size: 1
-[2017/08/18 17:04:53 DEBUG 1124034912 operator()@src/process_thread.cpp: 74] pack response ad data: 123123	鲜花	1	32342	1	鲜花_标题	鲜花_desc1	鲜花_desc2	wefjbwejhf.cewc.com	kjdfnwilebfh.wefwefk.com
+[2017/09/14 16:30:56 DEBUG 140082872370944 init@src/mlog.cpp: 44] open debug log
+[2017/09/14 16:30:56 DEBUG 140082872370944 init_service@src/main.cpp: 49] config: service port: 60103
+[2017/09/14 16:30:56 DEBUG 140082872370944 init_service@src/main.cpp: 54] config: reload interval: 100
+[2017/09/14 16:30:56 DEBUG 140082872370944 init_service@src/main.cpp: 59] config: ad max_adnum: 1024
+[2017/09/14 16:30:56 DEBUG 140082872370944 init_service@src/main.cpp: 63] config: ad max_bidword_num: 1024
+[2017/09/14 16:30:56 DEBUG 140082872370944 init_service@src/main.cpp: 67] config: ad max_bidword_len: 16
+[2017/09/14 16:30:56 DEBUG 140082872370944 init_service@src/main.cpp: 71] config: ad ad_file: ./data/ad.info
+[2017/09/14 16:30:56 DEBUG 140082872370944 init_service@src/main.cpp: 76] config: thread max_process: 32
+[2017/09/14 16:30:56 DEBUG 140082872370944 accept_thread@src/accept_thread.cpp: 17] accept thread init done
+[2017/09/14 16:30:56 DEBUG 1086765408 operator()@src/accept_thread.cpp: 30] accept thread started
+[2017/09/14 16:30:56 DEBUG 1097255264 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1124432224 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1134922080 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1145411936 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1155901792 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1166391648 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1176881504 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1187371360 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1197861216 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1208351072 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1218840928 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1229330784 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1239820640 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1250310496 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1260800352 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1271290208 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1281780064 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1292269920 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1302759776 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1313249632 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1323739488 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1334229344 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1344719200 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1355209056 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1365698912 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1376188768 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1386678624 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1397168480 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1407658336 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1418148192 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1428638048 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1439127904 operator()@src/process_thread.cpp: 30] process thread started
+[2017/09/14 16:30:56 DEBUG 1086765408 init@src/accept_thread.cpp: 67] create listening socket fd: 11, address: [0.0.0.0, 60103]
+[2017/09/14 16:30:56 DEBUG 1086765408 operator()@src/accept_thread.cpp: 41] socket listening
+[2017/09/14 16:31:23 DEBUG 1086765408 operator()@src/accept_thread.cpp: 50] accept client socket fd: 12
+[2017/09/14 16:31:23 DEBUG 1086765408 operator()@src/accept_thread.cpp: 53] accept socket 12 from client [127.0.0.1, 12189]
+[2017/09/14 16:31:23 DEBUG 1086765408 operator()@src/accept_thread.cpp: 56] put fd[12] to blocking queue
+[2017/09/14 16:31:23 DEBUG 1097255264 operator()@src/process_thread.cpp: 41] get socket fd from blocking queue: 12
+[2017/09/14 16:31:23 DEBUG 1097255264 operator()@src/process_thread.cpp: 56] recv buf from client [UNKNOW]: 2	鲜花
+[2017/09/14 16:31:23 DEBUG 1097255264 operator()@src/process_thread.cpp: 62] search ad, get ad size: 1
+[2017/09/14 16:31:23 DEBUG 1097255264 operator()@src/process_thread.cpp: 66] sort and cut, adlist size: 1
+[2017/09/14 16:31:23 DEBUG 1097255264 operator()@src/process_thread.cpp: 70] calc price, adlist size: 1
+[2017/09/14 16:31:23 DEBUG 1097255264 operator()@src/process_thread.cpp: 74] pack response ad data: 123123	鲜花	1	32342	1	鲜花_标题	鲜花_desc1	鲜花_desc2	wefjbwejhf.cewc.com	kjdfnwilebfh.wefwefk.com
 
-[2017/08/18 17:04:53 DEBUG 1124034912 operator()@src/process_thread.cpp: 80] send adlist data to client [127.0.0.1, 33659] successful
+[2017/09/14 16:31:23 DEBUG 1097255264 operator()@src/process_thread.cpp: 80] send adlist data to client [UNKNOW] successful

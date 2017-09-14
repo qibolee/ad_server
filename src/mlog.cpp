@@ -10,21 +10,25 @@
 #include <mutex>
 #include "mlog.h"
 
+// buf size
 std::size_t mlog::buf_size = 102400;
 std::size_t mlog::tm_size = 64;
 
+// time buf
 std::shared_ptr<char> mlog::debug_tm(new char[tm_size], std::default_delete<char[]>());
 std::shared_ptr<char> mlog::trace_tm(new char[tm_size], std::default_delete<char[]>());
 std::shared_ptr<char> mlog::warning_tm(new char[tm_size], std::default_delete<char[]>());
 std::shared_ptr<char> mlog::fatal_tm(new char[tm_size], std::default_delete<char[]>());
 std::shared_ptr<char> mlog::notice_tm(new char[tm_size], std::default_delete<char[]>());
 
+// fd
 int mlog::debug_fd = -1;
 int mlog::trace_fd = -1;
 int mlog::warning_fd = -1;
 int mlog::fatal_fd = -1;
 int mlog::notice_fd = -1;
 
+// log data buf
 std::shared_ptr<char> mlog::debug_buf(new char[buf_size], std::default_delete<char[]>());
 std::shared_ptr<char> mlog::trace_buf(new char[buf_size], std::default_delete<char[]>());
 std::shared_ptr<char> mlog::warning_buf(new char[buf_size], std::default_delete<char[]>());
@@ -37,7 +41,6 @@ std::mutex mlog::trace_mtx;
 std::mutex mlog::warning_mtx;
 std::mutex mlog::fatal_mtx;
 std::mutex mlog::notice_mtx;
-
 
 void mlog::init(const char *debug_path, const char *trace_path, const char *warning_path, const char *fatal_path, const char *notice_path) {
     mlog::set_debug_path(debug_path);
@@ -54,7 +57,6 @@ void mlog::init(const char *debug_path, const char *trace_path, const char *warn
 
     mlog::set_notice_path(notice_path);
 }
-
 
 void mlog::set_debug_path(const char *path) {
     if (path == NULL) {
@@ -122,7 +124,8 @@ void mlog::notice(const notice_data &data) {
         return;
     }
     // ip, query, winfoid, show, charge, title, desc1, desc2, showurl, targeturl
-    int len = std::snprintf(notice_buf.get(), buf_size, "%s\t%s\t%lu\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n", data.ip.c_str(), data.query.c_str(), data.winfoid, data.show, data.charge, data.title.c_str(), data.desc1.c_str(), data.desc2.c_str(), data.showurl.c_str(), data.targeturl.c_str());
+    int len = std::snprintf(notice_buf.get(), buf_size, "%s\t%s\t%lu\t%d\t%d\t%s\t%s\t%s\t%s\t%s\n", data.ip.c_str(), data.query.c_str(), data.winfoid, 
+            data.show, data.charge, data.title.c_str(), data.desc1.c_str(), data.desc2.c_str(), data.showurl.c_str(), data.targeturl.c_str());
     write(notice_fd, notice_buf.get(), len);
 }
 
