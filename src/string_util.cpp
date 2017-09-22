@@ -13,7 +13,9 @@ std::vector<std::string> string_util::split(const std::string &line, const std::
     std::size_t last = 0;
     std::size_t idx = line.find_first_of(delim, last);
     while (idx != std::string::npos) {
-        ret.push_back(line.substr(last, idx - last));
+        if (idx > last) {
+            ret.push_back(line.substr(last, idx - last));
+        }
         last = idx + 1;
         idx = line.find_first_of(delim, last);
     }
@@ -29,7 +31,9 @@ std::vector<std::string> string_util::split(const std::string &line, char delim)
     auto last = line.begin();
     auto iter = std::find(last, line.end(), delim);
     while (iter != line.end()) {
-        ret.push_back(std::string(last, iter));
+        if (last != iter) {
+            ret.push_back(std::string(last, iter));
+        }
         last = std::next(iter, 1);
         iter = std::find(last, line.end(), delim);
     }
